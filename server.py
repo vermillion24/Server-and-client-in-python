@@ -86,7 +86,7 @@ class TCPServer:
 
     @staticmethod
     def _recv_all(client_sock: socket.socket) -> bytes | None:
-        #Read until the client closes its side or we hit the size cap.
+        #Read until the client closes its side or it hits the size limit.
         chunks = []
         total = 0
         while True:

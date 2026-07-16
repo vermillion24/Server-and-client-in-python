@@ -11,12 +11,12 @@ logging.basicConfig(
 )
 log = logging.getLogger("tcp_client")
 
-MAX_RESPONSE_SIZE = 64 * 1024  # 64 KB cap, matches server's MAX_MESSAGE_SIZE
+MAX_RESPONSE_SIZE = 64 * 1024 # same size as the server can modify
 RECV_CHUNK = 4096
 
 
 def recv_all(sock: socket.socket) -> bytes:
-    """Read until the peer closes the connection or we hit the size cap."""
+    # Read until server closes connection or hit limit
     chunks = []
     total = 0
     while True:
@@ -55,7 +55,7 @@ def send_message(host: str, port: int, message: bytes, timeout: float, retries: 
             log.warning("Connection refused by %s:%d", host, port)
         except socket.gaierror as e:
             log.error("Hostname resolution failed for %s: %s", host, e)
-            return None  # retrying won't fix a bad hostname
+            return None
         except OSError as e:
             log.warning("Socket error: %s", e)
 
